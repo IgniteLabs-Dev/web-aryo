@@ -19,7 +19,7 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Aryo - Portfolio Landing Page",
+  title: "Web Aryo - Portfolio Landing Page",
   description: "Hi, I'm Aryo. Multi-disciplinary professional in Web Development, Finance & Accounting, and Property Management.",
 };
 
