@@ -1,26 +1,88 @@
 @import "tailwindcss";
 
+@theme {
+  --font-serif: var(--font-playfair), serif;
+  
+  --color-brand-yellow: #f5a914;
+  --color-brand-yellow-dark: #d9910d;
+  --color-dark-bg: #030c17;
+  --color-dark-card: #0c1c31;
+  --color-dark-card-hover: #162c4b;
+  --color-light-text: #e2e8f0;
+  
+  --animate-bob: bob 3s ease-in-out infinite;
+  --animate-wiggle: wiggle 2s ease-in-out infinite;
+  --animate-swim: swim 6s ease-in-out infinite;
+}
+
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(-5deg); }
+  50% { transform: rotate(5deg); }
+}
+
+@keyframes swim {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  33% { transform: translate(2px, -3px) rotate(1deg); }
+  66% { transform: translate(-2px, 3px) rotate(-1deg); }
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #030c17;
+  --foreground: #f8fafc;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  height: 100%;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), sans-serif;
+  min-height: 100%;
+  overflow-x: hidden;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #020811;
+}
+::-webkit-scrollbar-thumb {
+  background: #0c1c31;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #f5a914;
+}
+
+/* Wave ripples background */
+.ripple-circle {
+  position: absolute;
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  animation: ripple-expand 4s infinite linear;
+}
+
+@keyframes ripple-expand {
+  0% {
+    width: 0px;
+    height: 0px;
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    width: 120px;
+    height: 40px;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(2);
+  }
 }
