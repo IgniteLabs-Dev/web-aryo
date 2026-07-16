@@ -132,16 +132,16 @@ export default function Hero() {
       <div className="flex-grow flex flex-col md:flex-row items-center justify-center px-6 md:px-16 lg:px-24 pb-12 z-20">
         
         {/* Left Side: Fisherman Rowboat Illustration */}
-        <div className="w-full md:w-1/2 flex justify-center items-center mb-10 md:mb-0 relative select-none">
+        <div className="w-full md:w-[55%] lg:w-[60%] flex justify-start items-center mb-10 md:mb-0 relative select-none md:-ml-16 lg:-ml-24">
           
           {/* Pleading speech bubble */}
-          <div className="absolute top-[-20px] left-[35%] md:left-[30%] bg-white text-slate-900 px-4 py-2 rounded-2xl shadow-xl border border-slate-300 font-serif italic text-sm md:text-base animate-bounce" style={{ animationDuration: "2s" }}>
+          <div className="absolute top-[-20px] left-[40%] md:left-[35%] bg-white text-slate-900 px-4 py-2 rounded-2xl shadow-xl border border-slate-300 font-serif italic text-sm md:text-base animate-bounce" style={{ animationDuration: "2s" }}>
             Please give me a job 🥺
             {/* Bubble Tail */}
             <div className="absolute bottom-[-8px] left-12 w-4 h-4 bg-white border-r border-b border-slate-300 rotate-45"></div>
           </div>
 
-          <div className="w-full max-w-[340px] sm:max-w-[420px] animate-bob">
+          <div className="w-full max-w-[480px] sm:max-w-[560px] lg:max-w-[620px] animate-bob">
             <svg 
               viewBox="0 0 400 300" 
               className="w-full h-auto text-slate-900 fill-current drop-shadow-2xl"

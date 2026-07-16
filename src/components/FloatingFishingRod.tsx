@@ -4,7 +4,7 @@ import React from "react";
 
 export default function FloatingFishingRod() {
   return (
-    <div className="fixed left-[8%] sm:left-[6%] lg:left-[5%] top-0 bottom-0 z-50 pointer-events-none select-none hidden md:flex flex-col items-center">
+    <div className="fixed left-[1.7%] sm:left-[1.5%] lg:left-[1.3%] top-0 bottom-0 z-50 pointer-events-none select-none hidden md:flex flex-col items-center">
       {/* Thin Fishing Line — stretches from the top */}
       <div className="w-[1.5px] flex-grow bg-white/20" />
 
