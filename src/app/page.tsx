@@ -4,10 +4,14 @@ import Services from "@/components/Services";
 import Projects from "@/components/Projects";
 import Achievements from "@/components/Achievements";
 import Contact from "@/components/Contact";
+import FloatingFishingRod from "@/components/FloatingFishingRod";
 
 export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
+      {/* Floating fishing rod — follows scroll */}
+      <FloatingFishingRod />
+
       <main className="flex-grow">
         <Hero />
         <AboutMe />

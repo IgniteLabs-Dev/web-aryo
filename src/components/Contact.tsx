@@ -69,38 +69,7 @@ export default function Contact() {
 
   return (
     <section id="contact" className="relative w-full bg-black py-24 px-6 md:px-16 lg:px-24 flex flex-col justify-center overflow-hidden">
-      
-      {/* Thin Fishing Line (Left side) */}
-      {/* Ends exactly at the hook at the bottom left */}
-      <div className="absolute left-[12%] sm:left-[10%] lg:left-[8.5%] top-0 w-[1.5px] h-[85%] bg-white/20 z-10 pointer-events-none" />
 
-      {/* Worm & Hook SVG positioned exactly under the fishing line */}
-      <div className="absolute left-[12%] sm:left-[10%] lg:left-[8.5%] bottom-10 -translate-x-[29.5px] z-20 pointer-events-none select-none">
-        <svg viewBox="0 0 60 100" className="w-14 h-auto text-white/50 fill-none stroke-current" strokeWidth="2">
-          {/* Eye of the hook */}
-          <circle cx="30" cy="15" r="2.5" fill="#fff" className="text-white/80" />
-          
-          {/* Hook shank */}
-          <line x1="30" y1="17.5" x2="30" y2="65" strokeLinecap="round" />
-          
-          {/* Hook bend */}
-          <path d="M 30 65 C 30 85, 12 85, 12 65 C 12 55, 20 48, 20 48" strokeLinecap="round" />
-          {/* Hook barb */}
-          <path d="M 20 48 L 17 52" strokeLinecap="round" />
-          
-          {/* Wiggling worm */}
-          <path
-            d="M 29 32 Q 37 38, 29 44 T 31 56 T 21 66 T 12 70"
-            stroke="#f43f5e"
-            strokeWidth="3.8"
-            strokeLinecap="round"
-            className="animate-wiggle origin-center"
-            style={{ animationDuration: "2s" }}
-          />
-          {/* Worm eye */}
-          <circle cx="14" cy="69" r="0.6" fill="black" />
-        </svg>
-      </div>
 
       <div className="max-w-6xl mx-auto w-full z-20">
         

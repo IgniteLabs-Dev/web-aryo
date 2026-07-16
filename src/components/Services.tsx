@@ -62,9 +62,8 @@ export default function Services() {
 
   return (
     <section id="services" className="relative w-full bg-[#030c17] py-24 px-6 md:px-16 lg:px-24 flex flex-col justify-center overflow-hidden">
-      
-      {/* Thin Fishing Line (Left side) */}
-      <div className="absolute left-[12%] sm:left-[10%] lg:left-[8.5%] top-0 w-[1.5px] h-full bg-white/20 z-10 pointer-events-none" />
+
+
 
       <div className="max-w-6xl mx-auto w-full z-20">
         

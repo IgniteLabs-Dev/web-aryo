@@ -63,9 +63,6 @@ export default function Hero() {
         <div className="ripple-circle" style={{ animationDelay: "2.6s" }}></div>
       </div>
 
-      {/* Thin Fishing Line (Left side) */}
-      {/* Rod tip aligns around 8% from left on desktop, 12% on mobile */}
-      <div className="absolute left-[12%] sm:left-[10%] lg:left-[8.5%] top-[20%] w-[1.5px] h-[80%] bg-gradient-to-b from-white/60 to-white/20 z-10 pointer-events-none" />
 
       {/* Header / Nav */}
       <header className="relative w-full flex justify-end p-6 z-50">
