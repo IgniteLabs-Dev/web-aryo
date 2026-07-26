@@ -30,7 +30,7 @@ export default function Home() {
           <a href="#services" className="hover:text-brand-yellow transition-colors duration-200">Services</a>
           <a href="#projects" className="hover:text-brand-yellow transition-colors duration-200">Projects</a>
           <a href="#achievements" className="hover:text-brand-yellow transition-colors duration-200">Achievements</a>
-          <a href="#contact" className="hover:text-brand-yellow transition-colors duration-200">Contact Supabase ON</a>
+          <a href="#contact" className="hover:text-brand-yellow transition-colors duration-200">Contact Supabase ON 1</a>
         </div>
       </footer>
     </div>
