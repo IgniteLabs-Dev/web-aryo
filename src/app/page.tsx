@@ -29,8 +29,12 @@ export default function Home() {
           <a href="#about-me" className="hover:text-brand-yellow transition-colors duration-200">About</a>
           <a href="#services" className="hover:text-brand-yellow transition-colors duration-200">Services</a>
           <a href="#projects" className="hover:text-brand-yellow transition-colors duration-200">Projects</a>
+<<<<<<< Updated upstream
           <a href="#achievements" className="hover:text-brand-yellow transition-colors duration-200">Achievements</a>
           <a href="#contact" className="hover:text-brand-yellow transition-colors duration-200">Contact Supabase ON 1</a>
+=======
+          <a href="#contact" className="hover:text-brand-yellow transition-colors duration-200">Contact Supabase ON 1 111</a>
+>>>>>>> Stashed changes
         </div>
       </footer>
     </div>
