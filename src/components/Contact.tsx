@@ -2,8 +2,10 @@
 
 import React, { useState } from "react";
 import { Send, CheckCircle, AlertCircle } from "lucide-react";
+import { useData } from "@/lib/data-provider";
 
 export default function Contact() {
+  const { general } = useData();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -24,7 +26,7 @@ export default function Contact() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setStatus({ type: null, message: "" });
@@ -39,7 +41,6 @@ export default function Contact() {
       return;
     }
 
-    // Email format validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email)) {
       setStatus({
@@ -50,27 +51,47 @@ export default function Contact() {
       return;
     }
 
-    // Simulate API Submission
-    setTimeout(() => {
+    // Submit to backend API (sama seperti versi lama)
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+
+      if (res.ok) {
+        setStatus({
+          type: "success",
+          message: "Thank you! Your message has been sent successfully."
+        });
+        setFormData({ name: "", email: "", phone: "", subject: "", message: "" });
+      } else {
+        setStatus({
+          type: "error",
+          message: data.error || "Failed to send message. Please try again."
+        });
+      }
+    } catch {
       setStatus({
-        type: "success",
-        message: "Thank you! Your message has been sent successfully."
+        type: "error",
+        message: "Network error. Please try again."
       });
-      setFormData({
-        name: "",
-        email: "",
-        phone: "",
-        subject: "",
-        message: ""
-      });
+    } finally {
       setLoading(false);
-    }, 1200);
+    }
   };
+
+  // WhatsApp dinamis dari general.contact_whatsapp (fallback ke hardcode)
+  const whatsappNumber = general?.contact_whatsapp?.replace(/[^0-9]/g, "") || "6281391024566";
+  const whatsappDisplay = general?.contact_whatsapp || "+6281391024566";
+  const whatsappUrl = `https://wa.me/${whatsappNumber}`;
+
+  // LinkedIn dinamis dari general.contact_linkedin
+  const linkedinUrl = general?.contact_linkedin || "https://www.linkedin.com/in/aryo";
 
   return (
     <section id="contact" className="relative w-full bg-black py-24 px-6 md:px-16 lg:px-24 flex flex-col justify-center overflow-hidden">
-
-
       <div className="max-w-6xl mx-auto w-full z-20">
         
         {/* Header Title */}
@@ -89,7 +110,6 @@ export default function Contact() {
           <div className="col-span-1 lg:col-span-7 bg-[#050b14] border border-slate-900 rounded-3xl p-8 shadow-xl">
             <form onSubmit={handleSubmit} className="space-y-5">
               
-              {/* Form Status Messages */}
               {status.type && (
                 <div 
                   className={`flex items-center space-x-2.5 p-4 rounded-xl text-sm border ${
@@ -199,9 +219,9 @@ export default function Contact() {
               Have a project in mind or want to discuss opportunities? Or is it just venting? Reach out through the form or connect directly. You are matter!
             </p>
 
-            {/* WhatsApp Connect Card */}
+            {/* WhatsApp Connect Card - DINAMIS dari general.contact_whatsapp */}
             <a
-              href="https://wa.me/6281391024566"
+              href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center space-x-4 p-5 rounded-2xl bg-emerald-950/40 hover:bg-emerald-950/70 border border-emerald-900/40 hover:border-emerald-600 transition-all duration-300 hover:-translate-y-0.5 shadow-md shadow-emerald-950/10 group"
@@ -213,13 +233,13 @@ export default function Contact() {
               </div>
               <div className="flex flex-col">
                 <span className="text-xs font-semibold tracking-wider text-emerald-400 uppercase">WhatsApp</span>
-                <span className="text-base sm:text-lg font-bold text-white mt-0.5">+6281391024566</span>
+                <span className="text-base sm:text-lg font-bold text-white mt-0.5">{whatsappDisplay}</span>
               </div>
             </a>
 
-            {/* LinkedIn Connect Card */}
+            {/* LinkedIn Connect Card - DINAMIS dari general.contact_linkedin */}
             <a
-              href="https://www.linkedin.com/in/aryo"
+              href={linkedinUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center space-x-4 p-5 rounded-2xl bg-blue-950/40 hover:bg-blue-950/70 border border-blue-900/40 hover:border-blue-600 transition-all duration-300 hover:-translate-y-0.5 shadow-md shadow-blue-950/10 group"

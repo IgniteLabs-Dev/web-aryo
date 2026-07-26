@@ -2,8 +2,10 @@
 
 import React, { useState, useEffect } from "react";
 import { Menu, X, ArrowDown } from "lucide-react";
+import { useData } from "@/lib/data-provider";
 
 export default function Hero() {
+  const { general } = useData();
   const [roleText, setRoleText] = useState("");
   const [roleIndex, setRoleIndex] = useState(0);
   const [charIndex, setCharIndex] = useState(0);
@@ -35,7 +37,6 @@ export default function Hero() {
     }
 
     if (!isDeleting && charIndex === currentRole.length) {
-      // Pause at full word
       timer = setTimeout(() => setIsDeleting(true), 1500);
     } else if (isDeleting && charIndex === 0) {
       setIsDeleting(false);
@@ -53,16 +54,12 @@ export default function Hero() {
     }
   };
 
+  // Data dinamis dari DB dengan fallback
+  const statusNote = general?.status_note?.trim() || "Please give me a job 🥺";
+  const aboutName = general?.about_name?.trim() || "Aryo";
+
   return (
     <section className="relative min-h-screen w-full flex flex-col justify-between overflow-hidden bg-gradient-to-b from-[#e0f0ff] via-[#3b82f6] to-[#030c17]">
-      
-      {/* Background ripples underneath the boat */}
-      <div className="absolute top-[35%] left-[25%] md:left-[22%] translate-x-[-50%] pointer-events-none">
-        <div className="ripple-circle" style={{ animationDelay: "0s" }}></div>
-        <div className="ripple-circle" style={{ animationDelay: "1.3s" }}></div>
-        <div className="ripple-circle" style={{ animationDelay: "2.6s" }}></div>
-      </div>
-
 
       {/* Header / Nav */}
       <header className="relative w-full flex justify-end p-6 z-50">
@@ -134,58 +131,68 @@ export default function Hero() {
         {/* Left Side: Fisherman Rowboat Illustration */}
         <div className="w-full md:w-[55%] lg:w-[60%] flex justify-start items-center mb-10 md:mb-0 relative select-none md:-ml-16 lg:-ml-24">
           
-          {/* Pleading speech bubble */}
-          <div className="absolute top-[-20px] left-[40%] md:left-[35%] bg-white text-slate-900 px-4 py-2 rounded-2xl shadow-xl border border-slate-300 font-serif italic text-sm md:text-base animate-bounce" style={{ animationDuration: "2s" }}>
-            Please give me a job 🥺
+          {/* Pleading speech bubble - DINAMIS dari general.status_note */}
+          <div className="absolute top-[-20px] left-[40%] md:left-[35%] bg-white text-slate-900 px-4 py-2 rounded-2xl shadow-xl border border-slate-300 font-serif italic text-sm md:text-base animate-bounce z-10" style={{ animationDuration: "2s" }}>
+            {statusNote}
             {/* Bubble Tail */}
             <div className="absolute bottom-[-8px] left-12 w-4 h-4 bg-white border-r border-b border-slate-300 rotate-45"></div>
           </div>
 
-          <div className="w-full max-w-[480px] sm:max-w-[560px] lg:max-w-[620px] animate-bob">
-            <svg 
-              viewBox="0 0 400 300" 
-              className="w-full h-auto text-slate-900 fill-current drop-shadow-2xl"
-            >
-              {/* Ripple water helper */}
-              <ellipse cx="150" cy="205" rx="100" ry="12" className="text-blue-900/20 fill-current" />
-              <ellipse cx="140" cy="215" rx="60" ry="6" className="text-blue-900/10 fill-current" />
+            {/* Inner wrapper so SVG overlay maps exactly to the image */}
+            <div className="relative inline-block w-[28.75rem] ml-4 md:ml-8 lg:ml-12 animate-bob">
+              <img
+                src="/images/fishing.png"
+                alt="Fisherman silhouette in a boat"
+                className="w-full ms-[3.25rem] z-[299] h-auto drop-shadow-2xl"
+                draggable={false}
+              />
+              {/* SVG overlay: viewBox matches fishing.png native size 800×494 */}
+              <svg
+                viewBox="0 0 800 494"
+                className="absolute inset-0 w-full h-full pointer-events-none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                {/* FISHING LINE
+                    Start: rod tip at ~(62, 4)
+                    End  : water surface at ~(62, 448)
+                */}
+                <line
+                  x1="62" y1="4"
+                  x2="62"  y2="448"
+                  stroke="white"
+                  strokeWidth="1.8"
+                  opacity="0.85"
+                  strokeLinecap="round"
+                />
 
-              {/* Boat Shadow */}
-              <path d="M 60 202 C 90 215, 230 215, 260 202 Q 160 218, 60 202 Z" className="text-blue-900/40 fill-current" />
+                {/* WATER RIPPLES at (62, 450) - Animated (Balanced Speed) */}
+                <ellipse cx="62" cy="452" fill="none" stroke="#60a5d8" strokeWidth="2.5">
+                  <animate attributeName="rx" values="0; 95" dur="4.5s" repeatCount="indefinite" begin="0s" />
+                  <animate attributeName="ry" values="0; 25" dur="4.5s" repeatCount="indefinite" begin="0s" />
+                  <animate attributeName="opacity" values="0.9; 0" dur="4.5s" repeatCount="indefinite" begin="0s" />
+                </ellipse>
+                <ellipse cx="62" cy="452" fill="none" stroke="#60a5d8" strokeWidth="2.5">
+                  <animate attributeName="rx" values="0; 95" dur="4.5s" repeatCount="indefinite" begin="-1.5s" />
+                  <animate attributeName="ry" values="0; 25" dur="4.5s" repeatCount="indefinite" begin="-1.5s" />
+                  <animate attributeName="opacity" values="0.9; 0" dur="4.5s" repeatCount="indefinite" begin="-1.5s" />
+                </ellipse>
+                <ellipse cx="62" cy="452" fill="none" stroke="#60a5d8" strokeWidth="2.5">
+                  <animate attributeName="rx" values="0; 95" dur="4.5s" repeatCount="indefinite" begin="-3s" />
+                  <animate attributeName="ry" values="0; 25" dur="4.5s" repeatCount="indefinite" begin="-3s" />
+                  <animate attributeName="opacity" values="0.9; 0" dur="4.5s" repeatCount="indefinite" begin="-3s" />
+                </ellipse>
 
-              {/* Boat Body */}
-              <path d="M 70 190 C 90 210, 240 210, 260 190 C 250 195, 210 202, 165 202 C 120 202, 80 195, 70 190 Z" />
-              <path d="M 69 191 L 261 191 L 263 189 L 67 189 Z" className="text-slate-800 fill-current" />
+                {/* Hook/bob dot — anchor point for FloatingFishingRod */}
+                <circle id="fishing-line-endpoint" cx="62" cy="447" r="4" fill="#5aaad0" opacity="0.9" />
+              </svg>
+            </div>
 
-              {/* Fisherman Silhouette */}
-              {/* Head & Hat */}
-              <circle cx="178" cy="148" r="9" />
-              <path d="M 178 139 L 164 146 L 175 149 Z" /> {/* Cap brim */}
-              
-              {/* Torso & Arms */}
-              <path d="M 178 156 C 182 165, 185 178, 186 186 C 176 189, 160 192, 153 184 C 148 176, 160 167, 168 166 Z" />
-              
-              {/* Arms holding rod */}
-              <path d="M 170 160 Q 155 162, 150 166 C 147 169, 152 173, 158 170 Z" className="text-slate-800 fill-current" />
-              
-              {/* Legs */}
-              <path d="M 186 186 C 188 193, 192 199, 199 199 L 180 199 Z" />
-
-              {/* Fishing rod */}
-              <line x1="164" y1="168" x2="35" y2="108" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
-              <path d="M 166 166 C 163 166, 161 170, 164 170 C 167 170, 169 166, 166 166 Z" className="text-slate-700 fill-current" />
-
-              {/* Fishing rod wire guide rings */}
-              <line x1="120" y1="147" x2="119" y2="149" stroke="currentColor" strokeWidth="1" />
-              <line x1="80" y1="129" x2="79" y2="131" stroke="currentColor" strokeWidth="1" />
-            </svg>
-          </div>
         </div>
 
-        {/* Right Side: Text & CTA */}
+        {/* Right Side: Text & CTA - Nama DINAMIS dari general.about_name */}
         <div className="w-full md:w-1/2 flex flex-col items-center md:items-start text-center md:text-left md:pl-8">
           <h1 className="text-5xl sm:text-6xl lg:text-7xl font-serif font-bold text-white leading-tight tracking-tight">
-            Hi, I'm <span className="text-brand-yellow">Aryo</span>.
+            Hi, I'm <span className="text-brand-yellow">{aboutName}</span>.
           </h1>
           
           <div className="mt-4 h-10 flex items-center text-xl sm:text-2xl text-slate-200/90 font-light">

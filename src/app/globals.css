@@ -63,26 +63,3 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #f5a914;
 }
-
-/* Wave ripples background */
-.ripple-circle {
-  position: absolute;
-  border: 1.5px solid rgba(255, 255, 255, 0.4);
-  border-radius: 50%;
-  animation: ripple-expand 4s infinite linear;
-}
-
-@keyframes ripple-expand {
-  0% {
-    width: 0px;
-    height: 0px;
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-  }
-  100% {
-    width: 120px;
-    height: 40px;
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(2);
-  }
-}

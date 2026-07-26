@@ -1,8 +1,11 @@
 "use client";
 
 import React from "react";
+import { useData } from "@/lib/data-provider";
 
 export default function AboutMe() {
+  const { general } = useData();
+
   const scrollToContact = () => {
     const element = document.getElementById("contact");
     if (element) {
@@ -10,11 +13,21 @@ export default function AboutMe() {
     }
   };
 
+  // Ambil deskripsi dari DB, split by newline (sama seperti versi lama)
+  const dbParagraphs = general?.about_description
+    ? general.about_description.split("\n").filter((p) => p.trim())
+    : [];
+
+  // Fallback jika DB kosong (UI baru tetap punya konten)
+  const fallbackParagraphs = [
+    "I am a multi-talented professional specializing in Web Development, Finance & Accounting, and Property Management. With a diverse skill set spanning technical programming and financial governance, I bring a unique hybrid approach to solving complex business challenges.",
+    "Whether building robust database systems, generating comprehensive financial audits, or managing commercial property assets, I focus on delivering high-quality, pixel-perfect, and organized solutions. Let's collaborate and bring your ideas to life!"
+  ];
+
+  const content = dbParagraphs.length > 0 ? dbParagraphs : fallbackParagraphs;
+
   return (
     <section className="relative w-full bg-[#030c17] py-24 px-6 md:px-16 lg:px-24 flex flex-col justify-center overflow-hidden">
-
-
-
       <div className="max-w-6xl mx-auto w-full grid grid-cols-1 md:grid-cols-12 gap-16 items-center">
         
         {/* Left Column: Stacked Landscape Image Card */}
@@ -30,18 +43,10 @@ export default function AboutMe() {
             {/* Main Card with Landscape SVG */}
             <div className="relative w-full h-full rounded-3xl overflow-hidden shadow-2xl bg-gradient-to-b from-[#e0f0ff] to-[#60a5fa] border border-white/10">
               <svg viewBox="0 0 200 200" className="w-full h-full">
-                {/* Sky background */}
                 <rect width="200" height="200" fill="url(#skyGrad)" />
-                
-                {/* Cloud */}
                 <path d="M 75 75 C 75 62, 92 62, 100 67 C 107 58, 126 58, 130 67 C 138 67, 142 75, 138 84 C 134 88, 80 88, 75 75 Z" fill="white" opacity="0.95" />
-                
-                {/* Rolling Hill (Back) */}
                 <path d="M -10 200 Q 60 120, 150 165 T 210 200 Z" fill="#84cc16" opacity="0.8" />
-                
-                {/* Rolling Hill (Front) */}
                 <path d="M -10 200 Q 110 135, 210 200 Z" fill="#65a30d" />
-                
                 <defs>
                   <linearGradient id="skyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                     <stop offset="0%" stopColor="#bae6fd" />
@@ -50,7 +55,6 @@ export default function AboutMe() {
                 </defs>
               </svg>
             </div>
-
           </div>
         </div>
 
@@ -65,13 +69,12 @@ export default function AboutMe() {
             Who I am
           </h2>
           
-          <p className="mt-6 text-slate-300 leading-relaxed text-base sm:text-lg">
-            I am a multi-talented professional specializing in Web Development, Finance & Accounting, and Property Management. With a diverse skill set spanning technical programming and financial governance, I bring a unique hybrid approach to solving complex business challenges.
-          </p>
-          
-          <p className="mt-4 text-slate-300 leading-relaxed text-base sm:text-lg">
-            Whether building robust database systems, generating comprehensive financial audits, or managing commercial property assets, I focus on delivering high-quality, pixel-perfect, and organized solutions. Let's collaborate and bring your ideas to life!
-          </p>
+          {/* Paragraf dari DB, dengan fallback hardcode */}
+          <div className="mt-6 text-slate-300 leading-relaxed text-base sm:text-lg space-y-4 w-full">
+            {content.map((p, i) => (
+              <p key={i}>{p}</p>
+            ))}
+          </div>
 
           <button
             onClick={scrollToContact}
@@ -80,7 +83,6 @@ export default function AboutMe() {
             Lets Connect
           </button>
         </div>
-
       </div>
     </section>
   );

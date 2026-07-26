@@ -9,7 +9,7 @@ import FloatingFishingRod from "@/components/FloatingFishingRod";
 export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
-      {/* Floating fishing rod — follows scroll */}
+      {/* Floating fishing rod — continues line from Hero + dangling cacing */}
       <FloatingFishingRod />
 
       <main className="flex-grow">
@@ -20,8 +20,7 @@ export default function Home() {
         <Achievements />
         <Contact />
       </main>
-      
-      {/* Footer */}
+
       <footer className="w-full bg-black py-8 border-t border-slate-900/60 flex flex-col sm:flex-row justify-between items-center px-6 md:px-16 lg:px-24 text-slate-500 text-xs sm:text-sm gap-4 z-20">
         <div>
           © {new Date().getFullYear()} Aryo. All rights reserved.

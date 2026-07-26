@@ -1,73 +1,50 @@
 "use client";
 
-import React, { useState } from "react";
-import { BarChart3, Building2, Code2, ChevronRight } from "lucide-react";
+import React, { useState, useMemo } from "react";
+import { BarChart3, Building2, Code2, ChevronRight, Layers } from "lucide-react";
+import { useData } from "@/lib/data-provider";
 
-interface ServiceItem {
-  id: string;
-  category: string;
-  title: string;
-  description: string;
-  icon: React.ReactNode;
-  sheepX: number;
-  sheepY: number;
-  hillColor: string;
-  skyColor: string;
-}
+// Map icon name (string di DB) ke komponen Lucide (sama seperti versi lama)
+const ICON_MAP: Record<string, React.ReactNode> = {
+  BarChart3: <BarChart3 className="w-4 h-4" />,
+  Building2: <Building2 className="w-4 h-4" />,
+  Code2: <Code2 className="w-4 h-4" />,
+};
 
 export default function Services() {
+  const { services, loading } = useData();
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const services: ServiceItem[] = [
-    {
-      id: "finance",
-      category: "FINANCE & ACCOUNTING",
-      title: "PT Prolintas Transutama Logistik",
-      description: "Responsible for managing corporate bookkeeping, cash flow optimization, tax reporting, and financial statement audits. Delivered comprehensive analysis resulting in a 15% reduction in administrative overhead.",
-      icon: <BarChart3 className="w-4 h-4" />,
-      sheepX: 45,
-      sheepY: 135,
-      hillColor: "#65a30d",
-      skyColor: "from-sky-100 to-sky-300"
-    },
-    {
-      id: "property",
-      category: "PROPERTY MANAGEMENT",
-      title: "Nusantara Indekos",
-      description: "Supervised asset operations, tenant acquisitions, rental collections, and preventative maintenance programs. Optimized occupancy rates up to 98% through digital listing integrations and modern tenant services.",
-      icon: <Building2 className="w-4 h-4" />,
-      sheepX: 95,
-      sheepY: 125,
-      hillColor: "#84cc16",
-      skyColor: "from-blue-100 to-blue-300"
-    },
-    {
-      id: "it",
-      category: "WEB DEVELOPMENT & IT",
-      title: "Universitas Amikom Yogyakarta",
-      description: "Designed and engineered enterprise-grade web platforms and custom database systems. Integrated APIs and developed responsive admin dashboards using modern frontend stacks (Next.js, React, Tailwind CSS).",
-      icon: <Code2 className="w-4 h-4" />,
-      sheepX: 145,
-      sheepY: 132,
-      hillColor: "#4d7c0f",
-      skyColor: "from-indigo-100 to-blue-200"
-    }
-  ];
+  const activeService = useMemo(() => services[activeIndex], [services, activeIndex]);
 
   const handleNext = () => {
-    setActiveIndex((prev) => (prev + 1) % services.length);
+    if (services.length > 0) {
+      setActiveIndex((prev) => (prev + 1) % services.length);
+    }
   };
 
-  const activeService = services[activeIndex];
+  if (loading && services.length === 0) {
+    return (
+      <section id="services" className="py-24 flex items-center justify-center">
+        <div className="text-slate-500">Loading services...</div>
+      </section>
+    );
+  }
+
+  if (!activeService) {
+    return (
+      <section id="services" className="relative w-full bg-[#030c17] py-24 px-6 flex flex-col items-center">
+        <span className="text-sm font-semibold tracking-widest text-brand-yellow uppercase">What I Do</span>
+        <h2 className="text-4xl md:text-5xl font-serif font-bold text-white mt-2 leading-tight">Services</h2>
+        <p className="text-slate-500 mt-6">No services yet. Add them via admin panel.</p>
+      </section>
+    );
+  }
 
   return (
     <section id="services" className="relative w-full bg-[#030c17] py-24 px-6 md:px-16 lg:px-24 flex flex-col justify-center overflow-hidden">
-
-
-
       <div className="max-w-6xl mx-auto w-full z-20">
         
-        {/* Header Title */}
         <div className="flex flex-col items-center md:items-start text-center md:text-left mb-12">
           <span className="text-sm font-semibold tracking-widest text-brand-yellow uppercase">
             What I Do
@@ -77,7 +54,7 @@ export default function Services() {
           </h2>
         </div>
 
-        {/* Tab Buttons (Horizontal Selector) */}
+        {/* Tab Buttons - Subject & icon dari DB */}
         <div className="flex flex-wrap justify-center md:justify-start gap-4 mb-8">
           {services.map((service, index) => {
             const isActive = index === activeIndex;
@@ -91,8 +68,8 @@ export default function Services() {
                     : "bg-[#091728] border-slate-700/60 text-slate-300 hover:border-slate-500"
                 }`}
               >
-                {service.icon}
-                <span className="capitalize">{service.id === "it" ? "Web Dev / IT" : service.id.replace("-", " & ")}</span>
+                {ICON_MAP[service.icon] || <Layers className="w-4 h-4" />}
+                <span>{service.subject}</span>
               </button>
             );
           })}
@@ -105,33 +82,22 @@ export default function Services() {
           <div className="w-full max-w-3xl rounded-3xl overflow-hidden shadow-2xl border border-slate-800 bg-[#0c1c31] transition-all duration-500 hover:border-slate-700 flex flex-col">
             
             {/* Top Half: Landscape SVG with moving sheep */}
-            <div className={`relative w-full h-44 sm:h-52 bg-gradient-to-b ${activeService.skyColor} border-b border-slate-800 overflow-hidden`}>
+            <div className={`relative w-full h-44 sm:h-52 bg-gradient-to-b ${activeService.sky_grad} border-b border-slate-800 overflow-hidden`}>
               <svg viewBox="0 0 200 80" className="absolute inset-0 w-full h-full object-cover" preserveAspectRatio="none">
-                
-                {/* Rolling Hill Back */}
-                <path d="M -10 80 Q 40 40, 110 60 T 210 80 Z" fill={activeService.hillColor} opacity="0.6" className="transition-all duration-700" />
-                
-                {/* Rolling Hill Front */}
-                <path d="M -10 80 Q 90 45, 210 80 Z" fill={activeService.hillColor} className="transition-all duration-700" />
-                
-                {/* Fluffy clouds */}
+                <path d="M -10 80 Q 40 40, 110 60 T 210 80 Z" fill={activeService.hill_color} opacity="0.6" className="transition-all duration-700" />
+                <path d="M -10 80 Q 90 45, 210 80 Z" fill={activeService.hill_color} className="transition-all duration-700" />
                 <ellipse cx="30" cy="18" rx="12" ry="4" fill="white" opacity="0.8" />
                 <ellipse cx="160" cy="15" rx="16" ry="5" fill="white" opacity="0.8" />
                 <ellipse cx="170" cy="18" rx="10" ry="4" fill="white" opacity="0.8" />
-
-                {/* Animated Sheep */}
                 <g 
-                  transform={`translate(${activeService.sheepX}, ${activeService.sheepY})`} 
+                  transform={`translate(${activeService.sheep_x}, ${activeService.sheep_y})`} 
                   className="transition-all duration-1000 ease-out"
                 >
-                  {/* Legs */}
                   <line x1="2" y1="6" x2="2" y2="10" stroke="#000" strokeWidth="1" />
                   <line x1="4" y1="6" x2="4" y2="10" stroke="#000" strokeWidth="1" />
                   <line x1="7" y1="6" x2="7" y2="10" stroke="#000" strokeWidth="1" />
                   <line x1="9" y1="6" x2="9" y2="10" stroke="#000" strokeWidth="1" />
-                  {/* Fluffy body */}
                   <ellipse cx="5" cy="4" rx="6" ry="4" fill="#ffffff" />
-                  {/* Black head */}
                   <circle cx="11" cy="3" r="2" fill="#1e293b" />
                 </g>
               </svg>
@@ -144,7 +110,7 @@ export default function Services() {
               </span>
               
               <h3 className="text-2xl sm:text-3xl font-bold text-white mt-2 leading-tight">
-                {activeService.title}
+                {activeService.name}
               </h3>
               
               <p className="mt-4 text-slate-300 text-sm sm:text-base leading-relaxed">
@@ -155,7 +121,6 @@ export default function Services() {
                 View Details &gt;
               </button>
             </div>
-
           </div>
 
           {/* Right Arrow Navigation Button */}
@@ -166,9 +131,7 @@ export default function Services() {
           >
             <ChevronRight className="w-6 h-6 stroke-[2.5]" />
           </button>
-
         </div>
-
       </div>
     </section>
   );
