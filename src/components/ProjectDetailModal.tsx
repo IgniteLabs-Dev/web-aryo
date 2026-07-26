@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState, useCallback } from "react";
-import { X, ChevronLeft, ChevronRight, ImageOff, ExternalLink, Github } from "lucide-react";
+import { X, ChevronLeft, ChevronRight, ImageOff } from "lucide-react";
 import type { Project } from "@/lib/data-provider";
 
 interface Props {
