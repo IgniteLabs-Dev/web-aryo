@@ -1,0 +1,120 @@
+/* ============================================================
+   ARYO PORTFOLIO - GLOBAL STYLES (Tailwind v4)
+   ============================================================ */
+
+@import "tailwindcss";
+
+/* ============================================================
+   THEME CONFIGURATION (replaces tailwind.config.ts theme)
+   ============================================================ */
+@theme {
+  /* Fonts */
+  --font-serif: var(--font-playfair), serif;
+  --font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+
+  /* Brand Colors */
+  --color-brand-yellow: #f5a914;
+  --color-brand-yellow-dark: #d9910d;
+  --color-dark-bg: #030c17;
+  --color-dark-card: #0c1c31;
+  --color-dark-card-hover: #162c4b;
+  --color-light-text: #e2e8f0;
+
+  /* Custom Animations */
+  --animate-bob: bob 3s ease-in-out infinite;
+  --animate-wiggle: wiggle 2s ease-in-out infinite;
+  --animate-swim: swim 6s ease-in-out infinite;
+}
+
+/* ============================================================
+   KEYFRAMES
+   ============================================================ */
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(-5deg); }
+  50% { transform: rotate(5deg); }
+}
+
+@keyframes swim {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  33% { transform: translate(2px, -3px) rotate(1deg); }
+  66% { transform: translate(-2px, 3px) rotate(-1deg); }
+}
+
+/* ============================================================
+   CSS VARIABLES (Root)
+   ============================================================ */
+:root {
+  --background: #030c17;
+  --foreground: #f8fafc;
+}
+
+/* ============================================================
+   BASE STYLES
+   ============================================================ */
+html {
+  scroll-behavior: smooth;
+  height: 100%;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  min-height: 100%;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ============================================================
+   CUSTOM SCROLLBAR
+   ============================================================ */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #020811;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #0c1c31;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #f5a914;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #0c1c31 #020811;
+}
+
+/* ============================================================
+   UTILITY CLASSES (manual - karena tidak pakai @layer)
+   ============================================================ */
+
+/* Line clamp (jika perlu manual, biasanya sudah ada di Tailwind v4) */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
